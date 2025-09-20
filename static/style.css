@@ -1,0 +1,336 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+    background: #1a1a1a;
+    color: #f0f0f0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #1e1e1e;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #2d3748, #1a202c);
+    border-bottom: 2px solid #4a5568;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.header-title h1 {
+    font-size: 1.5rem;
+    color: #68d391;
+    margin-bottom: 2px;
+}
+
+.version {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    font-weight: 400;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    background: #4a5568;
+    color: #f7fafc;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background: #68d391;
+    color: #1a202c;
+    transform: translateY(-1px);
+}
+
+/* Command Suggestions */
+.command-suggestions {
+    padding: 12px 20px;
+    background: #2d3748;
+    border-bottom: 1px solid #4a5568;
+}
+
+.suggestions-label {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.suggestions-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    background: #4a5568;
+    color: #f7fafc;
+    padding: 6px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.chip:hover {
+    background: #68d391;
+    color: #1a202c;
+    transform: scale(1.05);
+}
+
+/* Terminal */
+.terminal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #1a1a1a;
+    margin: 0 20px 20px 20px;
+    border-radius: 8px;
+    border: 1px solid #4a5568;
+    overflow: hidden;
+}
+
+.terminal-output {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    background: #1a1a1a;
+}
+
+.welcome-message {
+    margin-bottom: 20px;
+}
+
+.welcome-ascii {
+    color: #68d391;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.command-line {
+    margin: 8px 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.command-prompt {
+    color: #68d391;
+    margin-right: 8px;
+    font-weight: 600;
+}
+
+.command-text {
+    color: #f7fafc;
+}
+
+.command-output {
+    margin: 4px 0 12px 24px;
+    white-space: pre-wrap;
+    color: #e2e8f0;
+}
+
+.error-output {
+    color: #fc8181;
+}
+
+.success-output {
+    color: #68d391;
+}
+
+.info-output {
+    color: #63b3ed;
+}
+
+/* Terminal Input */
+.terminal-input-container {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: #2d3748;
+    border-top: 1px solid #4a5568;
+}
+
+.prompt {
+    color: #68d391;
+    font-weight: 600;
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+.input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #f7fafc;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    padding: 0;
+    caret-color: #68d391;
+}
+
+.terminal-input::placeholder {
+    color: #718096;
+}
+
+.cursor {
+    width: 2px;
+    height: 1.2em;
+    background: #68d391;
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Status Bar */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    background: #2d3748;
+    border-top: 1px solid #4a5568;
+    font-size: 0.85rem;
+}
+
+.status-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.status-label {
+    color: #a0aec0;
+    font-weight: 500;
+}
+
+.status-item {
+    color: #e2e8f0;
+}
+
+#cwd {
+    color: #68d391;
+    font-weight: 500;
+}
+
+/* Scrollbar */
+.terminal-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+    background: #2d3748;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+    background: #4a5568;
+    border-radius: 4px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+    background: #68d391;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        margin: 0;
+        border: none;
+    }
+    
+    .header {
+        padding: 10px 15px;
+    }
+    
+    .header-title h1 {
+        font-size: 1.3rem;
+    }
+    
+    .command-suggestions,
+    .terminal-input-container,
+    .status-bar {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .terminal {
+        margin: 0 15px 15px 15px;
+    }
+    
+    .suggestions-chips {
+        gap: 6px;
+    }
+    
+    .chip {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+}
+
+/* Animation for command execution */
+.executing {
+    opacity: 0.7;
+}
+
+.executing .terminal-input {
+    color: #68d391;
+}
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+}

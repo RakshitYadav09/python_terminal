@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Terminal - Web Interface</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>�</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <h1>🐍 Python Terminal</h1>
+                <span class="version">v2.0 - Web Interface</span>
+            </div>
+            <div class="header-actions">
+                <button id="clearBtn" class="action-btn">Clear</button>
+                <button id="helpBtn" class="action-btn">Help</button>
+            </div>
+        </div>
+        
+        <div class="command-suggestions">
+            <div class="suggestions-label">Quick Commands:</div>
+            <div class="suggestions-chips">
+                <span class="chip" data-cmd="help">help</span>
+                <span class="chip" data-cmd="ls -l">ls -l</span>
+                <span class="chip" data-cmd="pwd">pwd</span>
+                <span class="chip" data-cmd="tree">tree</span>
+                <span class="chip" data-cmd="cpu">cpu</span>
+                <span class="chip" data-cmd="mem">mem</span>
+                <span class="chip" data-cmd="sysinfo">sysinfo</span>
+                <span class="chip" data-cmd="history">history</span>
+            </div>
+        </div>
+
+        <div id="terminal" class="terminal">
+            <div id="output" class="terminal-output">
+                <div class="welcome-message">
+                    <pre class="welcome-ascii">
+┌─────────────────────────────────────────────────────────────┐
+│                    Python Terminal v2.0                     │
+│                     Web Interface                           │
+│                                                             │
+│  Type 'help' to see available commands                      │
+│  Use natural language - try "show me all python files"      │
+│  All commands are logged to .terminal_history               │
+└─────────────────────────────────────────────────────────────┘
+                    </pre>
+                </div>
+            </div>
+            
+            <div class="terminal-input-container">
+                <span class="prompt">$</span>
+                <div class="input-wrapper">
+                    <input type="text" id="command-input" class="terminal-input" placeholder="Enter command..." autocomplete="off" spellcheck="false" autofocus>
+                    <div class="cursor"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-left">
+                <span class="status-label">Path:</span>
+                <span id="cwd">Loading...</span>
+            </div>
+            <div class="status-right">
+                <span class="status-item">Commands: <span id="commandCount">0</span></span>
+                <span class="status-item">Status: <span id="status">Ready</span></span>
+                <span id="time" class="status-item"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/terminal.js"></script>
+</body>
+</html>
