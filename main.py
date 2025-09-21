@@ -54,7 +54,14 @@ def main():
         @app.route('/cwd', methods=['GET'])
         def get_cwd():
             return jsonify({'cwd': os.getcwd()})
-        app.run(debug=True)
+        
+        # Production configuration for hosting platforms like Render
+        port = int(os.environ.get('PORT', 5000))
+        host = '0.0.0.0'  # Bind to all interfaces for external access
+        debug_mode = os.environ.get('FLASK_ENV') != 'production'
+        
+        print(f"Starting Flask app on {host}:{port}")
+        app.run(host=host, port=port, debug=debug_mode)
 
 
 if __name__ == '__main__':

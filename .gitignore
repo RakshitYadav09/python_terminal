@@ -121,12 +121,22 @@ celerybeat.pid
 
 # Environments
 .env
+.env.local
+.env.production
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# API Keys and sensitive data
+.env
+.env.local
+.env.production
+secrets.json
+config.json
+GEMINI_API_KEY
 
 # Spyder project settings
 .spyderproject
