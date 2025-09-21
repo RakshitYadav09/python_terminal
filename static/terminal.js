@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 │                     Web Interface                           │
 │                                                             │
 │  Type 'help' to see available commands                      │
-│  Use natural language - try "show me all python files"      │
+│  Use natural language - try "show me all files"             │
 │  All commands are logged to .terminal_history               │
 └─────────────────────────────────────────────────────────────┘
                 </pre>

@@ -228,6 +228,16 @@ def fallback_simple_patterns(text):
         except:
             pass
     
+    # File listing patterns
+    elif 'show' in low and 'python' in low and 'file' in low:
+        return ['search *.py']
+    elif 'show' in low and 'all' in low and 'file' in low:
+        return ['ls -l']
+    elif 'list' in low and 'python' in low:
+        return ['search *.py']
+    elif 'find' in low and 'python' in low:
+        return ['search *.py']
+    
     # If no patterns match, try AI parsing
     return try_ai_parsing(text)
 
@@ -258,9 +268,15 @@ def try_ai_parsing(text):
         "- echo \"text\" > filename (write text to file)\n"
         "- python filename.py (execute Python file)\n"
         "- run filename.py (execute Python file)\n"
+        "- search pattern (find files matching pattern, e.g., search *.py)\n"
+        "- tree (show directory structure)\n"
         "- cpu, mem, ps (system info)\n\n"
-        "For creating files with content, use: write filename \"content\"\n"
-        "Do NOT use complex shell syntax like <<EOF, pipes, or advanced redirections.\n"
+        "CRITICAL RULES:\n"
+        "1. Do NOT use pipes (|), grep, find, or any shell operators\n"
+        "2. To find Python files, use: search *.py\n"
+        "3. To show all files, use: ls -l\n"
+        "4. For file filtering, use the search command\n"
+        "5. Only return basic commands from the list above\n\n"
         f"User instruction: {text}\n"
         "Commands:"
     )

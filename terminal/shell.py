@@ -35,7 +35,7 @@ class Shell(Cmd):
 {Style.RESET_ALL}
 {Fore.CYAN}>> SYSTEM INITIALIZED{Style.RESET_ALL}
 {Fore.YELLOW}>> TYPE 'help' FOR COMMAND LIST{Style.RESET_ALL}
-{Fore.MAGENTA}>> AI MODE: try "show me all python files"{Style.RESET_ALL}
+{Fore.MAGENTA}>> AI MODE: try "show me all files"{Style.RESET_ALL}
 {Fore.GREEN}>> LOGGING: .terminal_history{Style.RESET_ALL}
 
 """
