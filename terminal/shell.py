@@ -50,6 +50,84 @@ class Shell(Cmd):
         except ImportError:
             pass
 
+    # Help methods for individual commands - these make the help system work properly
+    def help_ls(self):
+        self.stdout.write("ls [-l] [path] - List directory contents\n")
+        self.stdout.write("  -l: Show detailed listing with file sizes and dates\n")
+        self.stdout.write("  Examples: ls, ls -l, ls /home\n")
+
+    def help_pwd(self):
+        print("pwd - Print current working directory")
+        print("  Shows the full path of your current location")
+
+    def help_cd(self):
+        print("cd <directory> - Change to specified directory")
+        print("  Examples: cd /home, cd .., cd subfolder")
+
+    def help_mkdir(self):
+        print("mkdir <directory> - Create new directory")
+        print("  Examples: mkdir newfolder, mkdir 'folder with spaces'")
+
+    def help_rm(self):
+        print("rm <file/directory> - Remove files or directories")
+        print("  Use with caution! This permanently deletes files")
+        print("  Examples: rm file.txt, rm -rf folder")
+
+    def help_cat(self):
+        print("cat <file> - Display file contents")
+        print("  Examples: cat readme.txt, cat /path/to/file")
+
+    def help_touch(self):
+        print("touch <file> - Create empty file")
+        print("  Examples: touch newfile.txt, touch script.py")
+
+    def help_mv(self):
+        print("mv <source> <destination> - Move or rename files")
+        print("  Examples: mv old.txt new.txt, mv file.txt folder/")
+
+    def help_echo(self):
+        self.stdout.write("echo <text> [> file] - Print text or write to file\n")
+        self.stdout.write("  Examples: echo 'Hello World', echo 'text' > file.txt\n")
+
+    def help_write(self):
+        print("write <file> <content> - Write content to file")
+        print("  Examples: write test.txt 'Hello World'")
+
+    def help_tree(self):
+        print("tree - Display directory structure as tree")
+        print("  Shows files and folders in a visual tree format")
+
+    def help_search(self):
+        print("search <pattern> - Search for files matching pattern")
+        print("  Examples: search '*.py', search 'test*'")
+
+    def help_cpu(self):
+        print("cpu - Show current CPU usage percentage")
+
+    def help_mem(self):
+        print("mem - Show current memory usage")
+
+    def help_ps(self):
+        print("ps - List currently running processes")
+
+    def help_sysinfo(self):
+        print("sysinfo - Display comprehensive system information")
+
+    def help_history(self):
+        print("history [count] - Show command history")
+        print("  Examples: history, history 10")
+
+    def help_clear(self):
+        self.stdout.write("clear - Clear the terminal screen\n")
+
+    def help_python(self):
+        print("python <script> - Execute Python script")
+        print("  Examples: python script.py, python test.py")
+
+    def help_run(self):
+        print("run <script> - Execute Python script (alias for python)")
+        print("  Examples: run script.py, run test.py")
+
     def default(self, line: str):
         from .commands import log_command
         
