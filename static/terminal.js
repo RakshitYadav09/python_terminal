@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     updateCurrentPath();
     updateTime();
+    updateRateLimit();
     setInterval(updateTime, 1000);
+    setInterval(updateRateLimit, 5000); // Update rate limit every 5 seconds
 
     // Input focus and event handling
     input.focus();

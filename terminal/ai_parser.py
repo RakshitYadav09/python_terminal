@@ -1,8 +1,65 @@
 import os
+import time
+from collections import deque
 from dotenv import load_dotenv
 import google.generativeai as genai
 
 load_dotenv()
+
+# Rate limiting for Gemini API (12 requests per minute)
+class APIRateLimiter:
+    def __init__(self, max_requests=12, time_window=60):
+        self.max_requests = max_requests
+        self.time_window = time_window
+        self.request_times = deque()
+    
+    def can_make_request(self):
+        """Check if we can make a request without exceeding rate limit"""
+        current_time = time.time()
+        
+        # Remove requests older than the time window
+        while self.request_times and current_time - self.request_times[0] > self.time_window:
+            self.request_times.popleft()
+        
+        # Check if we're under the limit
+        return len(self.request_times) < self.max_requests
+    
+    def record_request(self):
+        """Record that we made a request"""
+        self.request_times.append(time.time())
+    
+    def time_until_next_request(self):
+        """Get seconds to wait before next request is allowed"""
+        if self.can_make_request():
+            return 0
+        
+        # Calculate when the oldest request will expire
+        oldest_request = self.request_times[0]
+        return max(0, self.time_window - (time.time() - oldest_request))
+
+# Global rate limiter instance
+rate_limiter = APIRateLimiter()
+
+def get_rate_limit_status():
+    """Get current rate limit status for debugging/monitoring"""
+    current_time = time.time()
+    
+    # Clean old requests
+    while rate_limiter.request_times and current_time - rate_limiter.request_times[0] > rate_limiter.time_window:
+        rate_limiter.request_times.popleft()
+    
+    requests_made = len(rate_limiter.request_times)
+    requests_remaining = rate_limiter.max_requests - requests_made
+    wait_time = rate_limiter.time_until_next_request()
+    
+    return {
+        'requests_made': requests_made,
+        'requests_remaining': requests_remaining,
+        'max_requests': rate_limiter.max_requests,
+        'time_window': rate_limiter.time_window,
+        'can_make_request': rate_limiter.can_make_request(),
+        'wait_time': wait_time
+    }
 
 def parse_nl(text):
     """
@@ -245,10 +302,17 @@ def try_ai_parsing(text):
     """
     Use Google Gemini API to parse natural language commands.
     Returns list of shell commands or empty list if parsing fails.
+    Includes rate limiting to prevent API quota exceeded errors.
     """
     # Load API key from .env
     api_key = os.getenv('GEMINI_API_KEY')
     if not api_key:
+        return []
+    
+    # Check rate limiting before making API call
+    if not rate_limiter.can_make_request():
+        wait_time = rate_limiter.time_until_next_request()
+        print(f"⏳ Rate limit reached. Please wait {wait_time:.1f} seconds before trying AI commands.")
         return []
     
     # Configure Google Gemini API
@@ -282,6 +346,9 @@ def try_ai_parsing(text):
     )
     
     try:
+        # Record the API request for rate limiting
+        rate_limiter.record_request()
+        
         # Use GenerativeModel for Gemini with timeout and safety settings
         model = genai.GenerativeModel('gemini-1.5-flash')
         

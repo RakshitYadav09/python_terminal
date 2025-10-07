@@ -54,6 +54,12 @@ def main():
         @app.route('/cwd', methods=['GET'])
         def get_cwd():
             return jsonify({'cwd': os.getcwd()})
+
+        @app.route('/rate-limit', methods=['GET'])
+        def get_rate_limit():
+            from terminal.ai_parser import get_rate_limit_status
+            status = get_rate_limit_status()
+            return jsonify(status)
         
         # Production configuration for hosting platforms like Render
         port = int(os.environ.get('PORT', 5000))

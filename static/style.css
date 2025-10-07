@@ -46,6 +46,68 @@ body {
     font-weight: 400;
 }
 
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Rate Limit Display */
+.rate-limit-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 150px;
+}
+
+.rate-limit-label {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rate-limit-bar {
+    width: 120px;
+    height: 8px;
+    background: #2d3748;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #4a5568;
+}
+
+.rate-limit-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #68d391, #48bb78);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    width: 0%;
+}
+
+.rate-limit-fill.warning {
+    background: linear-gradient(90deg, #ed8936, #dd6b20);
+}
+
+.rate-limit-fill.danger {
+    background: linear-gradient(90deg, #f56565, #e53e3e);
+}
+
+.rate-limit-text {
+    font-size: 0.75rem;
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+.rate-limit-text.warning {
+    color: #ed8936;
+}
+
+.rate-limit-text.danger {
+    color: #f56565;
+}
+
 .header-actions {
     display: flex;
     gap: 10px;
