@@ -17,16 +17,16 @@
                 <h1>🐍 Python Terminal</h1>
                 <span class="version">v2.0 - Web Interface</span>
             </div>
-            <div class="header-center">
-                <div id="rate-limit-display" class="rate-limit-display">
-                    <div class="rate-limit-label">AI Requests</div>
-                    <div class="rate-limit-bar">
-                        <div id="rate-limit-fill" class="rate-limit-fill"></div>
-                    </div>
-                    <div id="rate-limit-text" class="rate-limit-text">0/12 per min</div>
-                </div>
-            </div>
             <div class="header-actions">
+                <div class="rate-limit-display" id="rateLimitDisplay">
+                    <div class="rate-limit-label">AI API</div>
+                    <div class="rate-limit-status">
+                        <span id="rateLimitCount">12/12</span>
+                        <div class="rate-limit-bar">
+                            <div class="rate-limit-fill" id="rateLimitFill"></div>
+                        </div>
+                    </div>
+                </div>
                 <button id="clearBtn" class="action-btn">Clear</button>
                 <button id="helpBtn" class="action-btn">Help</button>
             </div>

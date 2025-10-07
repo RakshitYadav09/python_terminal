@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTime();
     updateRateLimit();
     setInterval(updateTime, 1000);
-    setInterval(updateRateLimit, 5000); // Update rate limit every 5 seconds
+    setInterval(updateRateLimit, 3000); // Update rate limit every 3 seconds
 
     // Input focus and event handling
     input.focus();
@@ -198,6 +198,55 @@ document.addEventListener('DOMContentLoaded', function() {
         if (commandCountElement) {
             commandCountElement.textContent = commandCount;
         }
+    }
+
+    function updateRateLimit() {
+        fetch('/rate-limit')
+        .then(response => response.json())
+        .then(data => {
+            const display = document.getElementById('rate-limit-display');
+            const icon = document.getElementById('rate-limit-icon');
+            const text = document.getElementById('rate-limit-text');
+            const bar = document.getElementById('rate-limit-bar');
+            
+            if (!display || !icon || !text || !bar) return;
+            
+            const { remaining, max_requests, reset_in } = data;
+            const usedPercentage = ((max_requests - remaining) / max_requests) * 100;
+            
+            // Update text
+            text.textContent = `${remaining}/${max_requests} API calls (${Math.ceil(reset_in)}s)`;
+            
+            // Update progress bar
+            bar.style.width = `${100 - usedPercentage}%`;
+            
+            // Update status indicators based on remaining requests
+            icon.className = 'rate-limit-icon';
+            bar.className = 'rate-limit-bar';
+            
+            if (remaining === 0) {
+                icon.classList.add('error');
+                bar.classList.add('critical');
+                icon.textContent = '🚫';
+            } else if (remaining <= 2) {
+                icon.classList.add('warning');
+                bar.classList.add('critical');
+                icon.textContent = '⚠️';
+            } else if (remaining <= 5) {
+                icon.classList.add('warning');
+                bar.classList.add('warning');
+                icon.textContent = '⚡';
+            } else {
+                icon.textContent = '✅';
+            }
+        })
+        .catch(error => {
+            console.warn('Failed to update rate limit:', error);
+            const display = document.getElementById('rate-limit-display');
+            if (display) {
+                display.style.opacity = '0.5';
+            }
+        });
     }
 
     function escapeHtml(text) {

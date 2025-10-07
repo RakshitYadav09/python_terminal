@@ -46,71 +46,10 @@ body {
     font-weight: 400;
 }
 
-.header-center {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Rate Limit Display */
-.rate-limit-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    min-width: 150px;
-}
-
-.rate-limit-label {
-    font-size: 0.8rem;
-    color: #a0aec0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.rate-limit-bar {
-    width: 120px;
-    height: 8px;
-    background: #2d3748;
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid #4a5568;
-}
-
-.rate-limit-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #68d391, #48bb78);
-    border-radius: 3px;
-    transition: all 0.3s ease;
-    width: 0%;
-}
-
-.rate-limit-fill.warning {
-    background: linear-gradient(90deg, #ed8936, #dd6b20);
-}
-
-.rate-limit-fill.danger {
-    background: linear-gradient(90deg, #f56565, #e53e3e);
-}
-
-.rate-limit-text {
-    font-size: 0.75rem;
-    color: #e2e8f0;
-    font-weight: 500;
-}
-
-.rate-limit-text.warning {
-    color: #ed8936;
-}
-
-.rate-limit-text.danger {
-    color: #f56565;
-}
-
 .header-actions {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .action-btn {
@@ -123,6 +62,67 @@ body {
     font-family: inherit;
     font-size: 0.9rem;
     transition: all 0.2s ease;
+}
+
+/* Rate Limit Display Styles */
+.rate-limit-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #2d3748;
+    border: 1px solid #4a5568;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    min-width: 180px;
+}
+
+.rate-limit-icon {
+    font-size: 1rem;
+    color: #68d391;
+}
+
+.rate-limit-icon.warning {
+    color: #f6ad55;
+}
+
+.rate-limit-icon.error {
+    color: #fc8181;
+}
+
+.rate-limit-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.rate-limit-text {
+    color: #e2e8f0;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.rate-limit-progress {
+    height: 3px;
+    background: #4a5568;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.rate-limit-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #68d391, #38b2ac);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.rate-limit-bar.warning {
+    background: linear-gradient(90deg, #f6ad55, #ed8936);
+}
+
+.rate-limit-bar.critical {
+    background: linear-gradient(90deg, #fc8181, #e53e3e);
 }
 
 .action-btn:hover {

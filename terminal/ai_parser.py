@@ -28,38 +28,38 @@ class APIRateLimiter:
         """Record that we made a request"""
         self.request_times.append(time.time())
     
-    def time_until_next_request(self):
-        """Get seconds to wait before next request is allowed"""
-        if self.can_make_request():
-            return 0
+    def get_status(self):
+        """Get current rate limit status"""
+        current_time = time.time()
         
-        # Calculate when the oldest request will expire
-        oldest_request = self.request_times[0]
-        return max(0, self.time_window - (time.time() - oldest_request))
+        # Clean old requests
+        while self.request_times and current_time - self.request_times[0] > self.time_window:
+            self.request_times.popleft()
+        
+        requests_made = len(self.request_times)
+        requests_remaining = self.max_requests - requests_made
+        
+        # Calculate time until next request if at limit
+        time_until_reset = 0
+        if requests_made >= self.max_requests and self.request_times:
+            oldest_request = self.request_times[0]
+            time_until_reset = max(0, self.time_window - (current_time - oldest_request))
+        
+        return {
+            'requests_made': requests_made,
+            'requests_remaining': requests_remaining,
+            'max_requests': self.max_requests,
+            'time_window': self.time_window,
+            'can_make_request': self.can_make_request(),
+            'time_until_reset': time_until_reset
+        }
 
 # Global rate limiter instance
 rate_limiter = APIRateLimiter()
 
 def get_rate_limit_status():
-    """Get current rate limit status for debugging/monitoring"""
-    current_time = time.time()
-    
-    # Clean old requests
-    while rate_limiter.request_times and current_time - rate_limiter.request_times[0] > rate_limiter.time_window:
-        rate_limiter.request_times.popleft()
-    
-    requests_made = len(rate_limiter.request_times)
-    requests_remaining = rate_limiter.max_requests - requests_made
-    wait_time = rate_limiter.time_until_next_request()
-    
-    return {
-        'requests_made': requests_made,
-        'requests_remaining': requests_remaining,
-        'max_requests': rate_limiter.max_requests,
-        'time_window': rate_limiter.time_window,
-        'can_make_request': rate_limiter.can_make_request(),
-        'wait_time': wait_time
-    }
+    """Get current rate limit status for API endpoint"""
+    return rate_limiter.get_status()
 
 def parse_nl(text):
     """
@@ -311,8 +311,8 @@ def try_ai_parsing(text):
     
     # Check rate limiting before making API call
     if not rate_limiter.can_make_request():
-        wait_time = rate_limiter.time_until_next_request()
-        print(f"⏳ Rate limit reached. Please wait {wait_time:.1f} seconds before trying AI commands.")
+        status = rate_limiter.get_status()
+        print(f"⏳ Rate limit reached ({status['requests_made']}/{status['max_requests']}). Please wait {status['time_until_reset']:.1f} seconds.")
         return []
     
     # Configure Google Gemini API
@@ -350,7 +350,7 @@ def try_ai_parsing(text):
         rate_limiter.record_request()
         
         # Use GenerativeModel for Gemini with timeout and safety settings
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
         # Add generation config for better control
         generation_config = {
